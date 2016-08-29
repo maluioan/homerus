@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 
@@ -30,8 +32,13 @@ public class Employee {
     @Column(name = "dept")
     private String dept;
 
-    @OneToMany(cascade=CascadeType.ALL) //only this: makes a connection table
-    private List<Address> addresses = new ArrayList<Address>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(
+    		name="employee_project", 
+    		joinColumns = @JoinColumn(name = "idangajat"), 
+    		inverseJoinColumns = @JoinColumn(name = "idproiect")
+    )
+    private List<Project> projects = new ArrayList<Project>();
 
     public Employee(){
     }
@@ -66,7 +73,16 @@ public class Employee {
         this.dept = dept;
     }
 
-    public void addAddress(Address ad) {
-    	this.addresses.add(ad);
-    }
+    public List<Project> getProjects() {
+		return projects;
+	}
+
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
+	public void addProject(Project project) {
+		this.projects.add(project);
+	}
+
 }
