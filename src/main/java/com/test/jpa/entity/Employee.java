@@ -1,72 +1,95 @@
 package com.test.jpa.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name = "Employee")
+@Table(name = "EmployeeDesk")
 public class Employee {
 
-    @Id
-    @Column(name = "id")
-    @GeneratedValue
-    private int id;
+	@Id
+	@Column(name = "id")
+	@GeneratedValue
+	private int id;
 
-    @Column(name = "fistName")
-    private String firstName;
+	@Column(name = "firstName")
+	private String firstName;
 
-    @Column(name = "lastName")
-    private String lastName;
+	@Column(name = "lastName")
+	private String lastName;
 
-    @Column(name = "dept")
-    private String dept;
+	@Column(name = "dept")
+	private String dept;
 
-    @OneToMany(cascade=CascadeType.ALL) //only this: makes a connection table
-    private List<Address> addresses = new ArrayList<Address>();
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_desk")
+	private Desk simpleDeskName;
 
-    public Employee(){
-    }
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_man")
+	private DeskManager manager;
 
-    public Employee(String firstName, String lastName, String dept){
-        this.setFirstName(firstName);
-        this.setLastName(lastName);
-        this.setDept(dept);
-    }
+	public Employee() {
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public Employee(String firstName, String lastName, String dept) {
+		this.setFirstName(firstName);
+		this.setLastName(lastName);
+		this.setDept(dept);
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public DeskManager getManager() {
+		return manager;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setManager(DeskManager manager) {
+		this.manager = manager;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getDept() {
-        return dept;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setDept(String dept) {
-        this.dept = dept;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public void addAddress(Address ad) {
-    	this.addresses.add(ad);
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+
+	public Desk getSimpleDeskName() {
+		return simpleDeskName;
+	}
+
+	public void setSimpleDeskName(Desk simpleDeskName) {
+		this.simpleDeskName = simpleDeskName;
+	}
+
+	@Override
+	public String toString() {
+		return new StringBuilder().append("id= ").append(id).append(", ")
+				.append("fn= ").append(firstName).append(", ").append("ln= ")
+				.append(lastName).append(", ").append("dp= ").append(dept)
+				.toString();
+	}
 }
