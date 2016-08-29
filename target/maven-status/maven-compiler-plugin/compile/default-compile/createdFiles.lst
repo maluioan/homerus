@@ -1,0 +1,4 @@
+com\test\jpa\controller\RestServiceController.class
+com\test\jpa\entity\Movie.class
+com\test\jpa\repository\IMovieRepository.class
+com\test\jpa\MainBoot.class
